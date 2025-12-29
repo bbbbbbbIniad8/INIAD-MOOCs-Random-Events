@@ -1,64 +1,98 @@
 import { createElementClass } from "./common";
+import { changeBackgraundColor, changeWellStyle } from "./common";
+import type { colorMode } from "../type/type";
 
 function darkmodeSwitch(){
     const header = document.getElementsByClassName("content-header");
+    const btnParent = document.createElement("div")
+    Object.assign(btnParent.style, {
+        display: "flex",
+        justifyContent: "flex-end"}
+    )
     const lightBtn = createElementClass("div", "hidden-xs");
-
     if (header.length > 0) {
         const targetElement = header[0];
         Object.assign(lightBtn.style, {
-            backgroundColor: "transparent",
+            display: "flex",
+            flexDirection: "column",
+            alignItems:"center",
+            justifyContent: "center",
+            backgroundColor: "white",
             backgroundImage: "none",
             padding: "15px 15px",
             fontFamily: "fontAwesome",
-            border: "1px solid red"
+            width: "70px",
+            border: "1px solid black",
+            borderRadius: "5px",
+            userSelect: "none",
         });
-        lightBtn.textContent = "照明";
-        targetElement.prepend(lightBtn);
+        const icon = document.createElement("img")
+        icon.id = "icon"
+        icon.src = "https://icongr.am/clarity/sun.svg?size=25&color=000000"
+        lightBtn.appendChild(icon)
+        btnParent.appendChild(lightBtn)
+        targetElement.prepend(btnParent);
     }else{
         console.error("エラー: content-wrapper が見つかりません。");
     }
     return lightBtn
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-type colormode = "light" | "dark"
-const darkmode = (lightBtn :HTMLElement, nowColorMode: colormode, event: [() => boolean]) => {
-    lightBtn.addEventListener("click", () =>{
-    const wrapper = document.getElementsByClassName("content-wrapper");
-    const wells = document.querySelectorAll(".well");
-    const header = document.querySelectorAll(".content-header")
+const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, LightEvent: [() => void] | null, DarkEvent: [() => void] | null) => {
+    let isProcessing = false;
+    lightBtn.onclick =  async() =>{
+        if (isProcessing) return 
+        isProcessing = true
+        const wrapper = document.getElementsByClassName("content-wrapper");
+        const header = document.querySelectorAll(".content-header");
+        const header4 = document.querySelectorAll("h4");
+        const bgColor2 = (nowColorMode === "light" ? "black" : "white") 
+        const fontColor = (nowColorMode === "light" ? "white" : "black");
 
-    if (wrapper.length > 0 && wells.length) {
-        Object.assign((wrapper[0] as HTMLElement).style, {
-            backgroundColor: (nowColorMode === "light" ? "#24272B" : "#ECF0F5")
-        });
+        if (wrapper.length > 0) {
+            changeBackgraundColor((nowColorMode === "light" ? "#24272B" : "#ECF0F5"))
 
-        wells.forEach(element => {
-            Object.assign((element as HTMLElement).style, {
-            backgroundColor: (nowColorMode === "light" ? "black" : "white"),
-            color: (nowColorMode === "light" ? "white" : "black"),
-            borderStyle: "solid",
-            borderColor: (nowColorMode === "light" ?  "#262424ff": "#f5f5f5")
-        })});
+            header.forEach(element => {
+                Object.assign((element as HTMLElement).style, {
+                color: fontColor,
+            })});
 
-        header.forEach(element => {
-            Object.assign((element as HTMLElement).style, {
-            backgroundColor: (nowColorMode === "light" ? "#24272B" : "#ECF0F5"),
-            color: (nowColorMode === "light" ? "white" : "black"),
-        })});
+            header4.forEach(element => {
+                Object.assign((element as HTMLElement).style, {
+                color: fontColor,
+            })});
 
-        nowColorMode = (nowColorMode === "light" ? "dark" : "light")
-    }else{
-        console.error("エラー: 'content-wrapper' というクラスの要素が見つかりません。");
-    }
+            Object.assign(lightBtn.style,{
+                backgroundColor: bgColor2
+            })
 
-    event.forEach(element => {
-        element()
-    })
-    
-})
+            const icon = document.getElementById("icon") as HTMLImageElement
+            icon.src = nowColorMode === "light" ? "https://icongr.am/clarity/moon.svg?size=25&color=ffffff" : "https://icongr.am/clarity/sun.svg?size=25&color=000000"
+
+            changeWellStyle(bgColor2,
+                            fontColor,
+                            (nowColorMode === "light" ?  "#262424ff": "#f5f5f5"))
+            
+            if (LightEvent && nowColorMode === "light"){
+                LightEvent.forEach(element => {
+                element()
+            })
+            }
+            if (DarkEvent && nowColorMode === "dark"){
+                DarkEvent.forEach(element => {
+                element()
+            })
+            }
+            nowColorMode = (nowColorMode === "light" ? "dark" : "light")
+            await sleep(1000)
+        }else{
+            console.error("エラー");
+        }
+        isProcessing = false
+}
     return nowColorMode
 }
 
-export {darkmodeSwitch, darkmode}
+export { darkmodeSwitch, darkmode }

@@ -18,6 +18,7 @@ const createWellContent = (title: string, imgUrl: string, courseUrl: string) =>{
   const mediaLeft = createElementClass("div", "media-left media-middle")
   const img = createElementClass("img", "course-list-icon") as HTMLImageElement
   img.src = imgUrl
+  img.style = "object-fit: contain;"
   const mediaBody = createElementClass("div", "media-body media-middle")
   const mediaHeading = createElementClass("h4", "media-heading")
   mediaHeading.textContent = title
@@ -37,13 +38,35 @@ const createWellContent = (title: string, imgUrl: string, courseUrl: string) =>{
   return col
 }
 
-function flash(){
-    const flashDiv = document.createElement("div");
-    document.body.appendChild(flashDiv);
-    flashDiv.classList.add("flash-effect");
-    setTimeout(() => {
-        flashDiv.classList.remove("flash-effect");
-    }, 3000);
+function changeBackgraundColor(BgColor: string){
+  const wrapper = document.querySelectorAll(".content-wrapper");
+  const header = document.querySelectorAll(".content-header")
+  Object.assign((wrapper[0] as HTMLElement).style, {
+      backgroundColor: BgColor
+  });
+  header.forEach(element => {
+      Object.assign((element as HTMLElement).style, {
+      backgroundColor: BgColor,
+  })});
 }
 
-export {randomNum, createElementClass, createWellContent, flash}
+function changeWellStyle(BgColor: string, fontColor: string, borderColor: string){
+  const wells = document.querySelectorAll(".well");
+    wells.forEach(element => {
+      Object.assign((element as HTMLElement).style, {
+                    backgroundColor: BgColor,
+                    color: fontColor,
+                    borderStyle: "solid",
+                    borderColor: borderColor})
+    }
+  )
+}
+
+function deleteAllAnchersHref(){
+  const anchers = document.querySelectorAll("a")
+  anchers.forEach(element => {
+    element.removeAttribute("href");
+  })
+}
+
+export {randomNum, createElementClass, createWellContent, changeWellStyle, changeBackgraundColor, deleteAllAnchersHref}

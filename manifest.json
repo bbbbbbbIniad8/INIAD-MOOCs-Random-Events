@@ -20,5 +20,12 @@
     "js": ["src/content.ts"]
   }
 ],
+  "web_accessible_resources": [
+    {
+      "resources": ["poniko.png", "uboa.png", "src/event/uboa/uboaEvent.js",
+               "src/event/uboa/uboa.html", "uboaEventFin.png"],
+      "matches": ["https://moocs.iniad.org/*"]
+    }
+  ],
   "permissions": []
 }
