@@ -2,6 +2,7 @@ import './index.css'
 import { darkmode, darkmodeSwitch } from './func/darkmode';
 import { addUboaWell, uboaEvent } from './event/uboa/uboa';
 import type { colorMode } from './type/type';
+import { monikaEvent } from './event/monika/process';
 import { addSpk } from './event/spk/spk';
 import { randomNum } from './func/common';
 
@@ -18,6 +19,8 @@ if (tables.length > 0) {
   }else if (funValue < 75){
     addUboaWell(tables[0])
     lightEvent = [() => uboaEvent(lightBtn, nowColorMode)];
+  }else{
+    monikaEvent()
   }
 } else {
     console.error("エラー");
