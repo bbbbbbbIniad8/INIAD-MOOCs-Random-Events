@@ -22,8 +22,8 @@
 ],
   "web_accessible_resources": [
     {
-      "resources": ["poniko.png", "uboa.png", "src/event/uboa/uboaEvent.js",
-               "src/event/uboa/uboa.html", "uboaEventFin.png"],
+      "resources": ["poniko.png", "uboa.png", "src/event/uboa/uboaEvent.js", "break.png",
+               "src/event/uboa/uboa.html", "uboaEventFin.png", "hatizihan.png"],
       "matches": ["https://moocs.iniad.org/*"]
     }
   ],

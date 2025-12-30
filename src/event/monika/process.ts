@@ -21,14 +21,12 @@ function monikaEvent(){
             element.textContent = ""
 
             const i = document.createElement("i")
-            i.textContent = " view just monila"
+            i.textContent = " view just monika"
             i.className = "fa fa-play-circle"
             element.appendChild(i)
             
         }
         )
-    }else{
-        alert("悲しい")
     }
 }
 

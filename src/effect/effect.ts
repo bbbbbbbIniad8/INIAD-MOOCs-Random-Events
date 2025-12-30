@@ -1,5 +1,7 @@
+import { randomNum } from "../func/common";
+
 function shake(){
-  document.body.classList.add("shake-x")
+    document.body.classList.add("shake-x")
 }
 
 function flash(){
@@ -11,4 +13,49 @@ function flash(){
     }, 3000);
 }
 
-export {shake, flash}
+function breakEffect(){
+    const breakDiv = document.createElement("img");
+    breakDiv.src = chrome.runtime.getURL("break.png")
+    Object.assign(breakDiv.style,{
+      pointerEvents: "none",
+      position: "fixed",
+      top: `${randomNum(-300, 300)}px`,
+      left: `${randomNum(-300, 300)}px`,
+      width: "100%",
+      height: "100%",
+      zIndex: 9999
+    })
+
+    document.body.appendChild(breakDiv);
+    
+}
+
+
+
+function colorOut(color: string) {
+  const div = document.createElement("div");
+
+ Object.assign(div.style, {
+    fontSize: "80px",
+    color: "white",
+    fontWeight: "1000",
+    backgroundColor: "transparent",
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    zIndex: "9999",
+    overflow: "scroll",
+  });
+
+  div.style.setProperty("--target-color", color);
+  div.style.animation = "color-out-animation 0.5s ease-out forwards";
+  document.body.appendChild(div);
+
+  return div
+
+}
+  
+
+export {shake, flash, breakEffect, colorOut}

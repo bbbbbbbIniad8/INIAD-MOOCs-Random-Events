@@ -89,6 +89,11 @@ button:focus-visible {
   40% { transform: translateX(5px); }
 }
 
+@keyframes color-out-animation {
+  100%{ background-color: var(--target-color)}
+}
+
+
 .shake-x {
   animation: shake-horizontal 0.8s linear infinite;
 }
