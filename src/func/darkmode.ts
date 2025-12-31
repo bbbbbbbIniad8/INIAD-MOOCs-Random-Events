@@ -1,5 +1,5 @@
 import { createElementClass } from "./common";
-import { changeBackgraundColor, changeWellStyle } from "./common";
+import { changeBackgraundColor, changeWellStyle, sleep } from "./common";
 import type { colorMode } from "../type/type";
 
 function darkmodeSwitch(){
@@ -38,9 +38,7 @@ function darkmodeSwitch(){
     return lightBtn
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, LightEvent: (() => void)[] | null, DarkEvent: (() => void)[] | null) => {
+const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: string, LightEvent: (() => void)[] | null, DarkEvent: (() => void)[] | null) => {
     let isProcessing = false;
     lightBtn.onclick =  async() =>{
         if (isProcessing) return 
@@ -52,7 +50,7 @@ const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, LightEvent: (()
         const fontColor = (nowColorMode === "light" ? "white" : "black");
 
         if (wrapper.length > 0) {
-            changeBackgraundColor((nowColorMode === "light" ? "#24272B" : "#ECF0F5"))
+            changeBackgraundColor((nowColorMode === "light" ? "#24272B" : originBgColor))
 
             header.forEach(element => {
                 Object.assign((element as HTMLElement).style, {

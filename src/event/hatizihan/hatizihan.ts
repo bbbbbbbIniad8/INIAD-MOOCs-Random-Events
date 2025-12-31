@@ -1,15 +1,17 @@
 import { addWell } from "../../func/common";
 import { breakEffect, colorOut } from "../../effect/effect";
+import { sleep } from "../../func/common";
 
 let clickNum = 0
 
-const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
 async function closeCurrentTab() {
     chrome.runtime.sendMessage({ action: "CLOSE_TAB" });
 }
 
 async function typeEffect(div: HTMLElement) {
     let displayText = "";
+    let speed = 100;
+    let fontSize = 80;
     await sleep(1000);
     const headWords = ["만", "지", "지", "마"];
     for (const char of headWords) {
@@ -17,9 +19,6 @@ async function typeEffect(div: HTMLElement) {
         displayText += char;
         div.textContent = displayText;
     }
-
-    let speed = 100;
-    let fontSize = 80;
 
     for (let i = 0; i < 200; i++) {
         await sleep(speed);

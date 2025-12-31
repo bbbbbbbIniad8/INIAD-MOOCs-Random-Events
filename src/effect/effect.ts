@@ -25,12 +25,8 @@ function breakEffect(){
       height: "100%",
       zIndex: 9999
     })
-
     document.body.appendChild(breakDiv);
-    
 }
-
-
 
 function colorOut(color: string, time: GLfloat) {
   const div = document.createElement("div");

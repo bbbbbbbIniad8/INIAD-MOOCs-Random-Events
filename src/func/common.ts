@@ -39,15 +39,12 @@ const createWellContent = (title: string, imgUrl: string, courseUrl: string) =>{
 }
 
 function changeBackgraundColor(BgColor: string){
-  const wrapper = document.querySelectorAll(".content-wrapper");
-  const header = document.querySelectorAll(".content-header")
-  Object.assign((wrapper[0] as HTMLElement).style, {
+  const wrapper = document.querySelector(".content-wrapper");
+
+  Object.assign((wrapper as HTMLElement).style, {
       backgroundColor: BgColor
   });
-  header.forEach(element => {
-      Object.assign((element as HTMLElement).style, {
-      backgroundColor: BgColor,
-  })});
+
 }
 
 function changeWellStyle(BgColor: string, fontColor: string, borderColor: string){
@@ -69,12 +66,13 @@ function deleteAllAnchersHref(){
   })
 }
 function addWell(parentElement: Element, title: string, imgPath: string, linkPath: string ){
-    const element = createWellContent(title,
-                                      imgPath,
-                                      linkPath) 
-    parentElement.prepend(element);
-    return element
-    }
+  const element = createWellContent(title,
+                                    imgPath,
+                                    linkPath) 
+  parentElement.prepend(element);
+  return element
+}
+const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));  
 
 export {randomNum, createElementClass, createWellContent, addWell,
-       changeWellStyle, changeBackgraundColor, deleteAllAnchersHref}
+       changeWellStyle, changeBackgraundColor, deleteAllAnchersHref ,sleep}

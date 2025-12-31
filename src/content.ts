@@ -7,18 +7,18 @@ import { addSpk } from './event/spk/spk';
 import { randomNum } from './func/common';
 import { addHatizihanWell } from './event/hatizihan/hatizihan';
 import { deleteOnNowEvent } from './event/deleteOnNow/deleteOnNow';
+import { sleep } from './func/common';
 
-const pseudoReload = (contentSection: Node | undefined, originalContent : Node | undefined) => {
+const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string) => {
   if (!contentSection||!contentSection.parentNode || !originalContent) return;
   const newContent = originalContent.cloneNode(true) as Node;
   contentSection.parentNode.replaceChild(newContent, contentSection);
   contentSection = newContent;
-  decideEvent()
+  decideEvent(bgColor)
   return contentSection
 };
 
-
-function decideEvent(){
+function decideEvent(bgColor: string){
   const funValMax = 200;
   const funValue = randomNum(0, funValMax)
 
@@ -43,25 +43,27 @@ function decideEvent(){
       console.error("エラー");
   }
 
-  darkmode(lightBtn, nowColorMode, lightEvent, null)
+  darkmode(lightBtn, nowColorMode,bgColor, lightEvent, null)
 }
 
 
 let originalContent = undefined as Node | undefined;
-
-
 let contentSection = document.querySelector('.content-wrapper') as Node | undefined;
+let bgColor = ""
 if (contentSection) {
   originalContent = contentSection.cloneNode(true);
+  const contentStyle = window.getComputedStyle(contentSection as Element);
+  bgColor = contentStyle.backgroundColor;
 }
+let isProcessing = false
+decideEvent(bgColor);
 
-
-decideEvent();
-
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'p' || e.key === 'P') {
-    contentSection = pseudoReload(contentSection, originalContent);
-    console.log("リロード")
+window.addEventListener('keydown', async(e) => {
+  if ((e.key === 'p' || e.key === 'P') && isProcessing === false) {
+    isProcessing = true
+    contentSection = pseudoReload(contentSection, originalContent, bgColor)
+    document.body.classList.remove("shake-x")
+    await sleep(1000)
+    isProcessing = false
   }
-    
 });
