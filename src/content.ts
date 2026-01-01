@@ -1,5 +1,5 @@
 import './index.css'
-import { darkmode, darkmodeSwitch } from './func/darkmode';
+import { addDarkMode, darkmodeSwitch} from './func/darkmode';
 import { addUboaWell, uboaEvent } from './event/uboa/uboa';
 import type { colorMode } from './type/type';
 import { monikaEvent } from './event/monika/process';
@@ -8,6 +8,7 @@ import { randomNum } from './func/common';
 import { addHatizihanWell } from './event/hatizihan/hatizihan';
 import { deleteOnNowEvent } from './event/deleteOnNow/deleteOnNow';
 import { sleep } from './func/common';
+import { addGF, GFEvent } from './event/GF/GF';
 
 const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string) => {
   if (!contentSection||!contentSection.parentNode || !originalContent) return;
@@ -22,10 +23,11 @@ function decideEvent(bgColor: string){
   const funValMax = 200;
   const funValue = randomNum(0, funValMax)
 
-  const nowColorMode = "light" as colorMode
+  let nowColorMode = "light" as colorMode
   const tables = document.getElementsByClassName("row flex")
   const lightBtn = darkmodeSwitch()
   let lightEvent: (() => void)[] = [];
+  let darkEvent: (() => void)[] = [];
   if (tables.length > 0) {
     if (funValue < 50){
       addSpk(tables[0])
@@ -38,12 +40,14 @@ function decideEvent(bgColor: string){
       addHatizihanWell(tables[0])
     }else if (funValue < 101){
       deleteOnNowEvent()
+    } else if(funValue < 110){
+      nowColorMode = addGF(lightBtn, nowColorMode, bgColor)
+      darkEvent = [() => GFEvent()]
     }
   } else {
       console.error("エラー");
   }
-
-  darkmode(lightBtn, nowColorMode,bgColor, lightEvent, null)
+  addDarkMode(lightBtn, nowColorMode, bgColor, lightEvent, darkEvent)
 }
 
 
@@ -57,7 +61,6 @@ if (contentSection) {
 }
 let isProcessing = false
 decideEvent(bgColor);
-
 window.addEventListener('keydown', async(e) => {
   if ((e.key === 'p' || e.key === 'P') && isProcessing === false) {
     isProcessing = true

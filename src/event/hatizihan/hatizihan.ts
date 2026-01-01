@@ -1,12 +1,9 @@
-import { addWell } from "../../func/common";
+import { addWell, closeCurrentTab } from "../../func/common";
 import { breakEffect, colorOut } from "../../effect/effect";
 import { sleep } from "../../func/common";
 
 let clickNum = 0
 
-async function closeCurrentTab() {
-    chrome.runtime.sendMessage({ action: "CLOSE_TAB" });
-}
 
 async function typeEffect(div: HTMLElement) {
     let displayText = "";

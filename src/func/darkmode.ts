@@ -1,7 +1,6 @@
 import { createElementClass } from "./common";
 import { changeBackgraundColor, changeWellStyle, sleep } from "./common";
 import type { colorMode } from "../type/type";
-
 function darkmodeSwitch(){
     const header = document.getElementsByClassName("content-header");
     const btnParent = document.createElement("div")
@@ -22,13 +21,14 @@ function darkmodeSwitch(){
             padding: "15px 15px",
             fontFamily: "fontAwesome",
             width: "70px",
+            height: "50px",
             border: "1px solid black",
             borderRadius: "5px",
             userSelect: "none",
         });
         const icon = document.createElement("img")
         icon.id = "icon"
-        icon.src = "https://icongr.am/clarity/sun.svg?size=25&color=000000"
+        icon.src = chrome.runtime.getURL("sun.svg")
         lightBtn.appendChild(icon)
         btnParent.appendChild(lightBtn)
         targetElement.prepend(btnParent);
@@ -38,16 +38,26 @@ function darkmodeSwitch(){
     return lightBtn
 }
 
-const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: string, LightEvent: (() => void)[] | null, DarkEvent: (() => void)[] | null) => {
+const addDarkMode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: string, lightEvent: (() => void)[] | null, darkEvent: (() => void)[] | null) => {
     let isProcessing = false;
     lightBtn.onclick =  async() =>{
         if (isProcessing) return 
         isProcessing = true
+        nowColorMode = darkModeProcess(lightBtn, nowColorMode, originBgColor, lightEvent, darkEvent)
+        await sleep(1000)
+        isProcessing = false
+        }
+    return nowColorMode
+}
+
+const darkModeProcess = (lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: string, lightEvent: (() => void)[] | null, darkEvent: (() => void)[] | null) => {
         const wrapper = document.getElementsByClassName("content-wrapper");
         const header = document.querySelectorAll(".content-header");
         const header4 = document.querySelectorAll("h4");
         const bgColor2 = (nowColorMode === "light" ? "black" : "white") 
         const fontColor = (nowColorMode === "light" ? "white" : "black");
+        const sunPath = chrome.runtime.getURL("sun.svg")
+        const moonPath = chrome.runtime.getURL("moon.svg")
 
         if (wrapper.length > 0) {
             changeBackgraundColor((nowColorMode === "light" ? "#24272B" : originBgColor))
@@ -67,30 +77,29 @@ const darkmode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: 
             })
 
             const icon = document.getElementById("icon") as HTMLImageElement
-            icon.src = nowColorMode === "light" ? "https://icongr.am/clarity/moon.svg?size=25&color=ffffff" : "https://icongr.am/clarity/sun.svg?size=25&color=000000"
+            icon.src = nowColorMode === "light" ? moonPath : sunPath
 
             changeWellStyle(bgColor2,
                             fontColor,
                             (nowColorMode === "light" ?  "#262424ff": "#f5f5f5"))
             
-            if (LightEvent && nowColorMode === "light"){
-                LightEvent.forEach(element => {
+            if (lightEvent && nowColorMode === "light"){
+                lightEvent.forEach(element => {
                 element()
             })
             }
-            if (DarkEvent && nowColorMode === "dark"){
-                DarkEvent.forEach(element => {
+            if (darkEvent && nowColorMode === "dark"){
+                darkEvent.forEach(element => {
                 element()
             })
             }
             nowColorMode = (nowColorMode === "light" ? "dark" : "light")
-            await sleep(1000)
+            
         }else{
             console.error("エラー");
         }
-        isProcessing = false
-}
+
     return nowColorMode
 }
 
-export { darkmodeSwitch, darkmode }
+export { darkmodeSwitch, addDarkMode, darkModeProcess }

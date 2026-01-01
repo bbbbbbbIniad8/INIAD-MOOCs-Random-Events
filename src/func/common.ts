@@ -72,7 +72,21 @@ function addWell(parentElement: Element, title: string, imgPath: string, linkPat
   parentElement.prepend(element);
   return element
 }
+
 const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));  
 
-export {randomNum, createElementClass, createWellContent, addWell,
-       changeWellStyle, changeBackgraundColor, deleteAllAnchersHref ,sleep}
+async function closeCurrentTab() {
+    chrome.runtime.sendMessage({ action: "CLOSE_TAB" });
+}
+
+
+async function  timer(isProcessing: boolean, count: number){
+    await sleep(1000)
+    if (isProcessing === true){
+        count++
+    }
+    return count
+}
+
+export {randomNum, createElementClass, createWellContent, addWell, closeCurrentTab,
+        changeWellStyle, changeBackgraundColor, deleteAllAnchersHref, sleep, timer}

@@ -12,8 +12,6 @@
     "service_worker": "src/background.ts",
     "type": "module"
   },
-
-  
   "content_scripts": [
   {
     "matches": ["https://moocs.iniad.org/courses"],
@@ -22,8 +20,9 @@
 ],
   "web_accessible_resources": [
     {
-      "resources": ["poniko.png", "uboa.png", "src/event/uboa/uboaEvent.js", "break.png",
-               "src/event/uboa/uboa.html", "uboaEventFin.png", "hatizihan.png"],
+      "resources": ["*.png",
+      "*.svg",
+      "assets/*"],
       "matches": ["https://moocs.iniad.org/*"]
     }
   ],
