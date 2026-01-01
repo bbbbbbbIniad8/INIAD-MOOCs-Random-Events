@@ -10,18 +10,21 @@ import { deleteOnNowEvent } from './event/deleteOnNow/deleteOnNow';
 import { sleep } from './func/common';
 import { addGF, GFEvent } from './event/GF/GF';
 
-const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string) => {
+const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string, fanValue: number|null) => {
   if (!contentSection||!contentSection.parentNode || !originalContent) return;
   const newContent = originalContent.cloneNode(true) as Node;
   contentSection.parentNode.replaceChild(newContent, contentSection);
   contentSection = newContent;
-  decideEvent(bgColor)
+  decideEvent(bgColor, fanValue)
   return contentSection
 };
 
-function decideEvent(bgColor: string){
+function decideEvent(bgColor: string, selectedValue: number | null){
   const funValMax = 200;
-  const funValue = randomNum(0, funValMax)
+  let funValue = randomNum(0, funValMax)
+  if (selectedValue){
+    funValue = selectedValue
+  }
 
   let nowColorMode = "light" as colorMode
   const tables = document.getElementsByClassName("row flex")
@@ -60,13 +63,18 @@ if (contentSection) {
   bgColor = contentStyle.backgroundColor;
 }
 let isProcessing = false
-decideEvent(bgColor);
+decideEvent(bgColor, null);
 window.addEventListener('keydown', async(e) => {
-  if ((e.key === 'p' || e.key === 'P') && isProcessing === false) {
+  let selectedValue = null as number | null
+  if ((e.key === '9' || e.key === 't') && isProcessing === false) {
+    if (e.key === 't'){
+      const inputValue = prompt()
+      selectedValue = Number(inputValue)
+    }
     isProcessing = true
-    contentSection = pseudoReload(contentSection, originalContent, bgColor)
+    contentSection = pseudoReload(contentSection, originalContent, bgColor, selectedValue)
     document.body.classList.remove("shake-x")
     await sleep(1000)
     isProcessing = false
-  }
+  } 
 });
