@@ -8,19 +8,22 @@ import { randomNum } from './func/common';
 import { addHatizihanWell } from './event/hatizihan/hatizihan';
 import { deleteOnNowEvent } from './event/deleteOnNow/deleteOnNow';
 import { sleep } from './func/common';
+import { addGary } from './event/gary/gary';
 import { addGF, GFEvent } from './event/GF/GF';
+import { shouldntKilledEvent } from './event/TheOneYouShouldntKilled/TheOneYouShouldntKilled';
 
 const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string, fanValue: number|null) => {
   if (!contentSection||!contentSection.parentNode || !originalContent) return;
   const newContent = originalContent.cloneNode(true) as Node;
   contentSection.parentNode.replaceChild(newContent, contentSection);
   contentSection = newContent;
+  document.body.style.cursor = "default"
   decideEvent(bgColor, fanValue)
   return contentSection
 };
 
 function decideEvent(bgColor: string, selectedValue: number | null){
-  const funValMax = 200;
+  const funValMax = 300;
   let funValue = randomNum(0, funValMax)
   if (selectedValue){
     funValue = selectedValue
@@ -46,6 +49,10 @@ function decideEvent(bgColor: string, selectedValue: number | null){
     } else if(funValue < 110){
       nowColorMode = addGF(lightBtn, nowColorMode, bgColor)
       darkEvent = [() => GFEvent()]
+    }else if (funValue < 150){
+      addGary()
+    }else{
+      shouldntKilledEvent()
     }
   } else {
       console.error("エラー");

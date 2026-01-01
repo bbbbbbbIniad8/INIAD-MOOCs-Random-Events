@@ -88,5 +88,12 @@ async function  timer(isProcessing: boolean, count: number){
     return count
 }
 
-export {randomNum, createElementClass, createWellContent, addWell, closeCurrentTab,
+function changePointer(path: string){
+  Object.assign((document.body).style, {
+    cursor: `url(${path}) 64 64, auto`
+  }
+  )  
+}
+
+export {randomNum, createElementClass, createWellContent, addWell, closeCurrentTab, changePointer,
         changeWellStyle, changeBackgraundColor, deleteAllAnchersHref, sleep, timer}

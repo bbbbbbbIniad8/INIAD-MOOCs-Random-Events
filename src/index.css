@@ -94,6 +94,21 @@ button:focus-visible {
 }
 
 
+
+.fade-out { 
+    animation: fadeOut calc(var(--timer) * 1s) ease-out; 
+    animation-fill-mode: both;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: calc(var(--op) * 1);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 .shake-x {
   animation: shake-horizontal 0.8s linear infinite;
 }
