@@ -22,6 +22,8 @@
     {
       "resources": ["*.png",
       "*.svg",
+      "*.html",
+      "src/event/redRoom/redRoom.html",
       "assets/*"],
       "matches": ["https://moocs.iniad.org/*"]
     }

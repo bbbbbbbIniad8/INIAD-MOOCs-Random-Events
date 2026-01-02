@@ -13,6 +13,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         uboa: resolve(__dirname, 'src/event/uboa/uboa.html'),
+        redRoom: resolve(__dirname, 'src/event/redRoom/redRoom.html'),
       },
     },
   },

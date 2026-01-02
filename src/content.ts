@@ -11,6 +11,7 @@ import { sleep } from './func/common';
 import { addGary } from './event/gary/gary';
 import { addGF, GFEvent } from './event/GF/GF';
 import { shouldntKilledEvent } from './event/TheOneYouShouldntKilled/TheOneYouShouldntKilled';
+import { addRedRoom } from './event/redRoom/redRoom';
 
 const pseudoReload = (contentSection: Node | undefined, originalContent: Node | undefined, bgColor: string, fanValue: number|null) => {
   if (!contentSection||!contentSection.parentNode || !originalContent) return;
@@ -34,6 +35,7 @@ function decideEvent(bgColor: string, selectedValue: number | null){
   const lightBtn = darkmodeSwitch()
   let lightEvent: (() => void)[] = [];
   let darkEvent: (() => void)[] = [];
+  addRedRoom()
   if (tables.length > 0) {
     if (funValue < 50){
       addSpk(tables[0])
