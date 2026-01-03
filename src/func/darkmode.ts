@@ -1,40 +1,10 @@
-import { createElementClass } from "./common";
+import { addHeaderBtn } from "./common";
 import { changeBackgraundColor, changeWellStyle, sleep } from "./common";
 import type { colorMode } from "../type/type";
-function darkmodeSwitch(){
-    const header = document.getElementsByClassName("content-header");
-    const btnParent = document.createElement("div")
-    Object.assign(btnParent.style, {
-        display: "flex",
-        justifyContent: "flex-end" 
-    })
-    const lightBtn = createElementClass("div", "hidden-xs");
-    if (header.length > 0) {
-        const targetElement = header[0];
-        Object.assign(lightBtn.style, {
-            display: "flex",
-            flexDirection: "column",
-            alignItems:"center",
-            justifyContent: "center",
-            backgroundColor: "white",
-            backgroundImage: "none",
-            padding: "15px 15px",
-            fontFamily: "fontAwesome",
-            width: "70px",
-            height: "50px",
-            border: "1px solid black",
-            borderRadius: "5px",
-            userSelect: "none",
-        });
-        const icon = document.createElement("img")
-        icon.id = "icon"
-        icon.src = chrome.runtime.getURL("sun.svg")
-        lightBtn.appendChild(icon)
-        btnParent.appendChild(lightBtn)
-        targetElement.prepend(btnParent);
-    }else{
-        console.error("エラー: content-wrapper が見つかりません。");
-    }
+
+
+function darkmodeSwitch(btnParent: HTMLElement){
+    const lightBtn = addHeaderBtn(btnParent, chrome.runtime.getURL("sun.svg"), "darkModeBtnIcon")
     return lightBtn
 }
 
@@ -43,14 +13,14 @@ const addDarkMode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColo
     lightBtn.onclick =  async() =>{
         if (isProcessing) return 
         isProcessing = true
-        nowColorMode = darkModeProcess(lightBtn, nowColorMode, originBgColor, lightEvent, darkEvent)
+        nowColorMode = darkModeProcess( nowColorMode, originBgColor, lightEvent, darkEvent)
         await sleep(1000)
         isProcessing = false
         }
     return nowColorMode
 }
 
-const darkModeProcess = (lightBtn :HTMLElement, nowColorMode: colorMode, originBgColor: string, lightEvent: (() => void)[] | null, darkEvent: (() => void)[] | null) => {
+const darkModeProcess = (nowColorMode: colorMode, originBgColor: string, lightEvent: (() => void)[] | null, darkEvent: (() => void)[] | null) => {
         const wrapper = document.getElementsByClassName("content-wrapper");
         const header = document.querySelectorAll(".content-header");
         const header4 = document.querySelectorAll("h4");
@@ -58,6 +28,10 @@ const darkModeProcess = (lightBtn :HTMLElement, nowColorMode: colorMode, originB
         const fontColor = (nowColorMode === "light" ? "white" : "black");
         const sunPath = chrome.runtime.getURL("sun.svg")
         const moonPath = chrome.runtime.getURL("moon.svg")
+
+        const reloadBlackPath = chrome.runtime.getURL("reload.svg")
+        const reloadWhitePath = chrome.runtime.getURL("reloadWhite.svg")
+
 
         if (wrapper.length > 0) {
             changeBackgraundColor((nowColorMode === "light" ? "#24272B" : originBgColor))
@@ -71,12 +45,17 @@ const darkModeProcess = (lightBtn :HTMLElement, nowColorMode: colorMode, originB
                 color: fontColor,
             })});
 
-            Object.assign(lightBtn.style,{
-                backgroundColor: bgColor2
-            })
+            const btns = document.querySelectorAll(".btns")
+            btns.forEach(element=>{
+                Object.assign((element as HTMLElement).style, {
+                backgroundColor: bgColor2,
+            })});
 
-            const icon = document.getElementById("icon") as HTMLImageElement
-            icon.src = nowColorMode === "light" ? moonPath : sunPath
+            const darkModeBtnIcon = document.getElementById("darkModeBtnIcon") as HTMLImageElement
+            darkModeBtnIcon.src = nowColorMode === "light" ? moonPath : sunPath
+
+            const reloadBtnIcon = document.getElementById("reloadBtnIcon") as HTMLImageElement
+            reloadBtnIcon.src = nowColorMode === "light" ? reloadWhitePath : reloadBlackPath
 
             changeWellStyle(bgColor2,
                             fontColor,

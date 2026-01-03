@@ -4,22 +4,22 @@ import { addDarkMode } from "../../func/darkmode"
 import { closeCurrentTab, sleep } from "../../func/common"
 
 const addGF = (lightBtn: HTMLElement, nowColorMode: colorMode, bgColor: string) => {
-    nowColorMode = darkModeProcess(lightBtn, nowColorMode, bgColor, null, null)
+    nowColorMode = darkModeProcess( nowColorMode, bgColor, null, null)
     
     const div = document.createElement("div")
     const img = document.createElement("img") as HTMLImageElement
     img.src = "https://fnaf.swiki.jp/index.php?plugin=ref&host=fnaf&page=Golden%20Freddy%28FNAF%29&src=Golden%20Freddy.png"
     const header = document.querySelector(".content-header")
-    
-    
+
     Object.assign(div.style, {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        userSelect: "none"
     })
     img.style.width = "400px"
     div.append(img)
-    
+
     if (header) {
         header.prepend(div)
     }
@@ -69,6 +69,7 @@ async function GFEvent() {
         height: "100vh",
         objectFit: "cover",
         zIndex: "99999",
+        userSelect: "none"
     })
     
     document.body.appendChild(img)

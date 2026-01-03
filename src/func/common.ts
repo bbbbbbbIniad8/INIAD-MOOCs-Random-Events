@@ -95,5 +95,38 @@ function changePointer(path: string){
   )  
 }
 
+function addHeaderBtn(btnParent: HTMLElement, iconPath: string, id: string){
+    const header = document.getElementsByClassName("content-header");
+    const btn = createElementClass("div", "btns");
+    if (header.length > 0) {
+        const targetElement = header[0];
+        Object.assign(btn.style, {
+            display: "flex",
+            flexDirection: "column",
+            alignItems:"center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            backgroundImage: "none",
+            padding: "15px 15px",
+            margin: "0 2px 0 2px",
+            fontFamily: "fontAwesome",
+            width: "70px",
+            height: "50px",
+            border: "1px solid black",
+            borderRadius: "5px",
+            userSelect: "none",
+        });
+        const icon = document.createElement("img")
+        icon.id = id
+        icon.src = iconPath
+        btn.appendChild(icon)
+        btnParent.appendChild(btn)
+        targetElement.prepend(btnParent);
+    }else{
+        console.error("エラー: content-wrapper が見つかりません。");
+    }
+    return btn
+}
+
 export {randomNum, createElementClass, createWellContent, addWell, closeCurrentTab, changePointer,
-        changeWellStyle, changeBackgraundColor, deleteAllAnchersHref, sleep, timer}
+        changeWellStyle, changeBackgraundColor, deleteAllAnchersHref, sleep, timer, addHeaderBtn}
