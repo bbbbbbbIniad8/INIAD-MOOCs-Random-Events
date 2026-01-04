@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "MOOCs Add Rare Event",
+  "name": "INIAD MOOCs: Random Events",
   "version": "0.1.0",
-  "description": "INIAD MOOCs に確率で発生するイベントを追加して日々のMOOCsライフに彩りを与える拡張機能。",
+  "description": "INIAD MOOCs のメニュー画面でランダムで発生するイベントを追加して日々のMOOCsライフに刺激と彩りを与える拡張機能。",
 
   "action": {
     "default_popup": "index.html"

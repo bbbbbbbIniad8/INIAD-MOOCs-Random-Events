@@ -49,15 +49,15 @@ export const eventList: GameEvent[] = [
     action: () => { addGary(); return {}; } 
   },
   { 
-    name: 'shouldntKilled', 
+    name: 'TheOneYouShouldntHaveilled', 
     eventNum: 3,
-    weight: 100, 
+    weight: 80, 
     action: () => { shouldntKilledEvent(); return {}; } 
   },
   { 
     name: 'uboa', 
     eventNum: 4,
-    weight: 60, 
+    weight: 74, 
     action: (ctx) => {
       addUboaWell(ctx.parent);
       return { lightEvent: [() => uboaEvent(ctx.lightBtn, ctx.nowColorMode)] };
@@ -66,7 +66,7 @@ export const eventList: GameEvent[] = [
   { 
     name: 'hatizihan', 
     eventNum: 5,
-    weight: 40, 
+    weight: 60, 
     action: (ctx) => { addHatizihanWell(ctx.parent); return {}; } 
   },
   { 
@@ -78,7 +78,7 @@ export const eventList: GameEvent[] = [
   { 
     name: 'goldenFreddy', 
     eventNum: 7,
-    weight: 15, 
+    weight: 30, 
     action: (ctx) => {
       const nextColor = addGF(ctx.lightBtn, ctx.nowColorMode, ctx.bgColor);
       return { nowColorMode: nextColor, darkEvent: [() => GFEvent()] };
@@ -87,7 +87,7 @@ export const eventList: GameEvent[] = [
   { 
     name: 'redRoom', 
     eventNum: 8,
-    weight: 15, 
+    weight: 20, 
     action: () => { addRedRoom(); return {}; } 
   },
   {

@@ -8,7 +8,7 @@ const addGF = (lightBtn: HTMLElement, nowColorMode: colorMode, bgColor: string) 
     
     const div = document.createElement("div")
     const img = document.createElement("img") as HTMLImageElement
-    img.src = "https://fnaf.swiki.jp/index.php?plugin=ref&host=fnaf&page=Golden%20Freddy%28FNAF%29&src=Golden%20Freddy.png"
+    img.src = chrome.runtime.getURL("src/event/GF/pic/GF.png")
     const header = document.querySelector(".content-header")
 
     Object.assign(div.style, {
@@ -60,7 +60,7 @@ async function GFEvent() {
 
     const img = document.createElement("img") as HTMLImageElement
     img.id = "GF";
-    img.src = "https://fnaf.swiki.jp/index.php?plugin=ref&host=fnaf&page=Golden%20Freddy%28FNAF%29&src=GF1.png"
+    img.src = chrome.runtime.getURL("src/event/GF/pic/dead.png")
     Object.assign(img.style, {
         position: "fixed",
         top: "0",
