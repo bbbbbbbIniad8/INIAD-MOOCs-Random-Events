@@ -17,6 +17,14 @@ const addDarkMode =(lightBtn :HTMLElement, nowColorMode: colorMode, originBgColo
         await sleep(1000)
         isProcessing = false
         }
+    
+        Object.assign(lightBtn.style, {
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            zIndex: 5000,
+            margin: "10px",
+        })
     return nowColorMode
 }
 

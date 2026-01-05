@@ -96,10 +96,8 @@ function changePointer(path: string){
 }
 
 function addHeaderBtn(btnParent: HTMLElement, iconPath: string, id: string){
-    const header = document.getElementsByClassName("content-header");
+    
     const btn = createElementClass("div", "btns");
-    if (header.length > 0) {
-        const targetElement = header[0];
         Object.assign(btn.style, {
             display: "flex",
             flexDirection: "column",
@@ -121,10 +119,7 @@ function addHeaderBtn(btnParent: HTMLElement, iconPath: string, id: string){
         icon.src = iconPath
         btn.appendChild(icon)
         btnParent.appendChild(btn)
-        targetElement.prepend(btnParent);
-    }else{
-        console.error("エラー: content-wrapper が見つかりません。");
-    }
+
     return btn
 }
 

@@ -33,10 +33,11 @@ export class EventManager {
     let nowColorMode = "light" as colorMode;
     const tables = document.getElementsByClassName("row flex");
     const btnParent = document.createElement("div");
-
+    const header = document.querySelector(".content-header") as HTMLElement;
+    const contentWrapper = document.querySelector(".content-wrapper") as HTMLElement;
     const reloadBtn = addHeaderBtn(btnParent, chrome.runtime.getURL("reload.svg"), "reloadBtnIcon");
+    
     reloadBtn.onclick = () => this.reload(null);
-
     reloadBtn.setAttribute("data-tooltip", "サーバーに負荷をかけずにイベント再抽選");
     reloadBtn.classList.add("custom-tooltip");
 
@@ -46,6 +47,8 @@ export class EventManager {
     });
 
     const lightBtn = darkmodeSwitch(btnParent);
+    header.prepend(reloadBtn)
+    contentWrapper.prepend(lightBtn)
     let lightEvent: (() => void)[] = [];
     let darkEvent: (() => void)[] = [];
 
