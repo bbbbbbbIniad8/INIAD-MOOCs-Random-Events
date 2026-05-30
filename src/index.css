@@ -107,19 +107,33 @@ button:focus-visible {
     }
 }
 
+.spin-element { 
+    animation: spin calc(1 * 1s); 
+    animation-fill-mode: both;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(360deg)};
+  50% { transform: rotate(360deg); }
+  75% { transform: rotate(360deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .shake-x {
   animation: shake-horizontal 0.8s linear infinite;
 }
 
 .custom-tooltip {
   position: relative;
+  
 }
 
 .custom-tooltip:hover::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
-  left: 50%;
+  bottom: 50%;
+  left: 200%;
   transform: translateX(-30%);
   background-color: #333;
   color: #fff;
@@ -127,5 +141,5 @@ button:focus-visible {
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
-  z-index: 9990;
+  z-index: 99999999
 }

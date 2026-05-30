@@ -20,6 +20,6 @@ window.addEventListener('keydown', async (e) => {
       }
     }
     
-    await manager.reload(selectedValue);
+    await manager.reload(null, selectedValue);
   }
 });

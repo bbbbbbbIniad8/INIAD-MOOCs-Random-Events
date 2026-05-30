@@ -96,7 +96,6 @@ function changePointer(path: string){
 }
 
 function addHeaderBtn(btnParent: HTMLElement, iconPath: string, id: string){
-    
     const btn = createElementClass("div", "btns");
         Object.assign(btn.style, {
             display: "flex",
@@ -113,6 +112,18 @@ function addHeaderBtn(btnParent: HTMLElement, iconPath: string, id: string){
             border: "1px solid black",
             borderRadius: "5px",
             userSelect: "none",
+            cursor: "pointer"
+        });
+
+        btn.addEventListener("mouseenter", () => {
+            Object.assign(btn.style, {
+                transform: "scale(1.05)",
+            });
+        });
+        btn.addEventListener("mouseleave", () => {
+            Object.assign(btn.style, {
+                transform: "scale(1)",
+            });
         });
         const icon = document.createElement("img")
         icon.id = id

@@ -1,4 +1,4 @@
-import { randomNum } from "../func/common";
+import { randomNum, sleep } from "../func/common";
 
 function shake(){
     document.body.classList.add("shake-x")
@@ -11,6 +11,13 @@ function flash(){
     setTimeout(() => {
         flashDiv.classList.remove("flash-effect");
     }, 3000);
+}
+
+async function spinElement (element : HTMLElement, time: number){
+    element.classList.add("spin-element");
+    await sleep(time);
+    element.classList.remove("spin-element");
+
 }
 
 function breakEffect(){
@@ -45,8 +52,7 @@ function colorOut(color: string, time: GLfloat) {
   document.body.appendChild(div);
 
   return div
-
 }
   
 
-export {shake, flash, breakEffect, colorOut}
+export {shake, flash, breakEffect, colorOut, spinElement}

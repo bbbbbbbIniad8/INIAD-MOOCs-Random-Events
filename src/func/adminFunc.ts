@@ -1,7 +1,8 @@
 import { addDarkMode, darkmodeSwitch } from './darkmode';
-import { addHeaderBtn, sleep } from './common';
+import { addHeaderBtn } from './common';
 import { eventList, type EventContext } from '../eventAdmin';
 import type { colorMode } from '../type/type';
+import { spinElement } from '../effect/effect';
 
 export class EventManager {
   private originalContent: Node | undefined;
@@ -37,7 +38,7 @@ export class EventManager {
     // const contentWrapper = document.querySelector(".content-wrapper") as HTMLElement;
     const reloadBtn = addHeaderBtn(btnParent, chrome.runtime.getURL("reload.svg"), "reloadBtnIcon");
     
-    reloadBtn.onclick = () => this.reload(null);
+    reloadBtn.onclick = () => this.reload(reloadBtn, null);
     reloadBtn.setAttribute("data-tooltip", "サーバーに負荷をかけずにイベント再抽選");
     reloadBtn.classList.add("custom-tooltip");
 
@@ -53,9 +54,9 @@ export class EventManager {
     });
 
     const lightBtn = darkmodeSwitch(btnParent);
-    div.prepend(lightBtn)
-    div.prepend(reloadBtn)
-    header.prepend(div)
+    div.prepend(lightBtn);
+    div.prepend(reloadBtn);
+    header.prepend(div);
     let lightEvent: (() => void)[] = [];
     let darkEvent: (() => void)[] = [];
 
@@ -83,14 +84,17 @@ export class EventManager {
     addDarkMode(lightBtn, nowColorMode, this.bgColor, lightEvent, darkEvent);
   }
 
-  public async reload(selectedValue: number | null) {
+  public async reload(reloadBtn: HTMLElement | null, selectedValue: number | null) {
     if (this.isProcessing) return;
     this.isProcessing = true;
     
-    this.pseudoReload(selectedValue);
-    document.body.classList.remove("shake-x");
-    await sleep(1000);
     
+    document.body.classList.remove("shake-x");
+    const icon = reloadBtn?.querySelector("img");
+    if (icon){
+      await spinElement(icon, 1000);
+    }
+    this.pseudoReload(selectedValue);
     this.isProcessing = false;
   }
 
