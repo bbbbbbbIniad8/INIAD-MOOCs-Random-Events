@@ -17,7 +17,6 @@ async function spinElement (element : HTMLElement, time: number){
     element.classList.add("spin-element");
     await sleep(time);
     element.classList.remove("spin-element");
-
 }
 
 function breakEffect(){

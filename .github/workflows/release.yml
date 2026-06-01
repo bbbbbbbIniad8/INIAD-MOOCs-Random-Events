@@ -27,9 +27,18 @@ jobs:
       - name: Build extension
         run: npm run build 
 
+      - name: フォルダにまとめてZIP化
+        run: |
+          mkdir -p extension-${{ github.ref_name }}
+
+          cp -r dist/* extension-${{ github.ref_name }}
+
+          mkdir -p release-artifacts
+          zip -r release-artifacts/extension.zip extension/
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: archive/*.zip
+          files: release-artifacts/extension.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
